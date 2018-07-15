@@ -13,6 +13,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_userTest(self):
         self.browser.get('http://localhost:8000')
 
@@ -31,15 +36,10 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(5)
 
         # Confirm Item added to table
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Test Item 1' for row in rows), f"New to-do item did not appear in table."
-                                                            f" Contents were: \n {table.text}"
-        )
+        self.check_for_row_in_table('1: Test Item 1')
 
         # Add another Item
-        self.fail('Finish tests')
+        # self.fail('Finish tests')
 
 
 if __name__ == '__main__':
