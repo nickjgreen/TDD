@@ -18,6 +18,12 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
+    def add_item_to_table(self, input):
+        inputbox =self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys(input)
+        inputbox.send_keys(Keys.ENTER)
+
+
     def test_userTest(self):
         self.browser.get('http://localhost:8000')
 
@@ -27,18 +33,16 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('To-Do', header_text)
 
         # Confirm To-Do input box takes input
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertEqual(
-            inputbox.get_attribute('placeholder'),
-            'Enter a to-do item')
-        inputbox.send_keys('Test Item 1')
-        inputbox.send_keys(Keys.ENTER)
-        time.sleep(5)
+        self.add_item_to_table('Test Item 1')
+        time.sleep(3)
 
         # Confirm Item added to table
         self.check_for_row_in_table('1: Test Item 1')
 
         # Add another Item
+        
+
+
         # self.fail('Finish tests')
 
 
